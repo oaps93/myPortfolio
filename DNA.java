@@ -9,7 +9,7 @@ In between, each additional codon is a sequence of three nucleotides.
 So for example:
 */
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class DNA {
   
@@ -30,7 +30,7 @@ public class DNA {
 
     ArrayList<Integer> subsProtein = new ArrayList<Integer>();
 
-    String dna = new String("ATGCGATACGCTTGA");
+    //String dna = new String("ATGCGATACGCTTGA");
 
     
     
@@ -46,7 +46,7 @@ public class DNA {
     // A method to find Protein. 
     Integer startATG = dna.indexOf("ATG");
     Integer lastTGA = dna.indexOf("TGA");
-    String protein = new String();
+    //String protein = new String();
 
     // Pass by reference the 1st and 2nd condition.
     subsProtein.add(startATG);
