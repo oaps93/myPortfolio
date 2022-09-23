@@ -2,32 +2,19 @@ public class searchPalindrome {
 
     public static void main(String[] args){
 
-        String s = new String("aaa");
+        String s = new String("aaaaaaaaaaaa");
         int palindromeCount = 0;
         int len = s.length();
-        palindromeCount += len;
-
-              
         
-        while(len > 1){
-            System.out.println(s);
-            if(isPalindrome(s.substring(0,len-1))&&len>2){
-                palindromeCount++;
-            }
-            if(isPalindrome(s.substring(1,len))&&len>2){
-                palindromeCount++;
-            }
-            if(isPalindrome(s)){
-                palindromeCount++;
-            }
-            s = s.substring(1, len-1);
-            len = s.length();
-            //System.out.println(s);
-            
-            
 
+        for(int i = 0; i < len; i++){
+            for ( int j = i+1; j <= len; j++){
+                if (isPalindrome(s.substring(i,j))){
+                    palindromeCount++;                    
+                }
+            }
+            
         } 
-        
 
         System.out.println(palindromeCount);
         
