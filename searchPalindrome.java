@@ -2,7 +2,7 @@ public class searchPalindrome {
 
     public static void main(String[] args){
 
-        String s = new String("aaaaaaaaaaaa");
+        String s = new String("aaaa");
         int palindromeCount = 0;
         int len = s.length();
         
@@ -24,8 +24,9 @@ public class searchPalindrome {
     private static boolean isPalindrome(String word) {
         int len = word.length();
         int i = 0;
-        while(i<len){
-        if(word.charAt((i))==word.charAt(len-1-i)){
+        int j = len-1-i;
+        while(i<j){
+        if(word.charAt((i))==word.charAt(j)){
             i++;
         }
         else return false;
