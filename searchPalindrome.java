@@ -4,7 +4,7 @@ public class searchPalindrome {
 
     public static void main(String[] args){
 
-        String s = new String("aaaaaaaa");
+        String s = new String("aabbaa");
         int palindromeCount = 0;
         int len = s.length();
         ArrayList<String> wordsToTest = new ArrayList<>();
@@ -32,6 +32,7 @@ public class searchPalindrome {
         while(i<j){
         if(word.charAt((i))==word.charAt(j)){
             i++;
+            j--;
         }
         else return false;
         }
