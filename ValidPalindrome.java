@@ -1,6 +1,6 @@
 class ValidPalindrome {
     public static void main(String[] args){
-        String s = new String("abbaba");
+        String s = new String("A man, a plan, a canal: Panama");
         System.out.println(isPalindrome(s));
     }
 
@@ -13,16 +13,16 @@ class ValidPalindrome {
 
         cleanString = cleanString.replaceAll("[^a-zA-Z0-9]", "");
 
-        int len = cleanString.length();  // 4
-        int i = 0; // 0 
-        int j = len - i - 1; // 3 
-
-        while (i<j){ 
-            if(cleanString.charAt(i)!=cleanString.charAt(j)){
+        int len = cleanString.length();  // 6
+        int j = len-1; // 5
+        for (int i = 0 ; i < j; i++){ // 3<2
+            
+            if(cleanString.charAt(i)!=cleanString.charAt(j)){ // c!=c
                 return false;
             }
-            i++; // 1 2
-            j = j-1; // 2 0
+            j = len-2-i; // 6-2-2 = 2
+            
+
         }
         return true;            
     }

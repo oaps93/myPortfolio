@@ -26,11 +26,11 @@ public class searchPalindrome {
 
     
     private static boolean isPalindrome(String word) {
-        int len = word.length();
-        int i = 0;
-        int j = len-1-i;
-        while(i<j){
-        if(word.charAt((i))==word.charAt(j)){
+        int len = word.length(); // 6
+        int i = 0; // 0
+        int j = len-1; // 5
+        while(i<j){ // 3<2
+        if(word.charAt((i))==word.charAt(j)){ // b == b
             i++;
             j--;
         }
