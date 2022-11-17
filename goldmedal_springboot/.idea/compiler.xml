@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="goldmedal_springboot" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="goldmedal" target="11" />
+      <module name="goldmedal_springboot" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
