@@ -6,8 +6,15 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Entity;
 
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
+
 @Entity
 @Table(name="RESTAURANT")
+@Getter
+@Setter
+@RequiredArgsConstructor
 public class Restaurant {
     @Id
     @GeneratedValue
