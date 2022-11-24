@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.Getter;
+import lombok.NonNull;
 
 @Entity
 @Table(name="RESTAURANT")
@@ -21,9 +22,11 @@ public class Restaurant {
     private long id;
 
     @Column(name="NAME")
+    @NonNull
     private String name;
 
     @Column(name="TYPE")
+    @NonNull
     private String type;
 
     @Column(name="PEANUTSCORE")
