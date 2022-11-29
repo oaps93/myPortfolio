@@ -37,4 +37,6 @@ public class DiningReview {
 
     @Column(name="COMMENTARY")
     private String commentary;
+
+    private Status status = Status.PENDING;
 }
