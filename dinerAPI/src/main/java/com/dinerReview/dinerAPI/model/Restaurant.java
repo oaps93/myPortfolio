@@ -19,15 +19,15 @@ import lombok.NonNull;
 public class Restaurant {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     @Column(name="NAME")
     @NonNull
     private String name;
 
-    @Column(name="TYPE")
+    @Column(name="ZIPCODE")
     @NonNull
-    private String type;
+    private String zipCode;
 
     @Column(name="PEANUTSCORE")
     private int peanutScore;
