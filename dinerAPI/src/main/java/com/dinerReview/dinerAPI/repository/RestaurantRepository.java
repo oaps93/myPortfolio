@@ -13,7 +13,7 @@ public interface RestaurantRepository extends CrudRepository<Restaurant,Integer>
 
     Restaurant save(Restaurant newRestaurant);
 
-    Restaurant getById(Long id);
+    Optional<Restaurant> getById(Long id);
 
     Iterable<Restaurant> getByZipCodeAndPeanutScoreGreaterThanOrderByNameDesc(String zipCode, Integer value);
 }

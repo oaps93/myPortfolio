@@ -16,9 +16,9 @@ public class User {
     @GeneratedValue
     private Long id;
 
-    @Column(name="USER")
+    @Column(name="NAME")
     @NonNull
-    private HashSet<String> user;
+    private HashSet<String> name;
 
     @Column(name="CITY")
     private String city;
