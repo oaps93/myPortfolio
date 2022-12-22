@@ -31,10 +31,10 @@ public class DinerReviewController {
         this.diningReviewRepository = diningReviewRepository;
     }
 
-    @GetMapping("/restaurant")
-    public Iterable<Restaurant> getAllRestaurants(){
-        return this.restaurantRepository.findAll();
-    }
+    //@GetMapping("/restaurant")
+    //public Iterable<Restaurant> getAllRestaurants(){
+    //    return this.restaurantRepository.findAll();
+    //}
 
     @GetMapping("/restaurant")
     public Restaurant getRestaurant(@RequestParam Long id){
@@ -66,17 +66,16 @@ public class DinerReviewController {
             restaurantToUpdate.setName(restaurant.getZipCode());
         }
         return this.restaurantRepository.save(restaurantToUpdate);
-
     }
 
-    @GetMapping("/user")
-    public Iterable<User> getAllUsers(){
-        return this.userRepository.findAll();
-    }
+    //@GetMapping("/user")
+    //public Iterable<User> getAllUsers(){
+    //    return this.userRepository.findAll();
+    //}
 
     @GetMapping("/user")
     public User getUser(@RequestParam String name){
-        Optional<User> userOptional = this.userRepository.getByUser(name);
+        Optional<User> userOptional = this.userRepository.getByName(name);
         if(userOptional.isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"User not found");
         }
@@ -84,16 +83,16 @@ public class DinerReviewController {
         return user;
     }
 
-    @PostMapping("user")
+    @PostMapping("/user")
     public User createUser(@RequestBody User user){
         User newUser = this.userRepository.save(user);
         return newUser;
     }
 
-    @GetMapping("/diningReview")
-    public Iterable<DiningReview> getAllDiningReview(){
-        return this.diningReviewRepository.findAll();
-    }
+    //@GetMapping("/diningReview")
+    //public Iterable<DiningReview> getAllDiningReview(){
+    //    return this.diningReviewRepository.findAll();
+    //}
 
     @GetMapping("/diningReview")
     public DiningReview getDiningReview(@RequestParam Long id){
