@@ -1,14 +1,21 @@
 package com.dinerReview.dinerAPI.model;
 
-import lombok.*;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.Table;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Entity;
 
-import javax.persistence.*;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Getter;
+import lombok.NonNull;
 import java.util.HashSet;
 
 @Entity
-@Table(name="USER")
-@Setter
+@Table(name="USER_")
 @Getter
+@Setter
 @RequiredArgsConstructor
 public class User {
 
@@ -18,9 +25,10 @@ public class User {
 
     @Column(name="NAME")
     @NonNull
-    private HashSet<String> name;
+    private String name;
 
     @Column(name="CITY")
+    @NonNull
     private String city;
 
     @Column(name="STATE")

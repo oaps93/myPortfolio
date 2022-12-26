@@ -38,5 +38,7 @@ public class DiningReview {
     @Column(name="COMMENTARY")
     private String commentary;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="STATUS")
     private Status status = Status.PENDING;
 }

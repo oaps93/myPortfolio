@@ -31,10 +31,10 @@ public class DinerReviewController {
         this.diningReviewRepository = diningReviewRepository;
     }
 
-    //@GetMapping("/restaurant")
-    //public Iterable<Restaurant> getAllRestaurants(){
-    //    return this.restaurantRepository.findAll();
-    //}
+    @GetMapping("/restaurants")
+    public Iterable<Restaurant> getAllRestaurants(){
+    return this.restaurantRepository.findAll();
+    }
 
     @GetMapping("/restaurant")
     public Restaurant getRestaurant(@RequestParam Long id){
