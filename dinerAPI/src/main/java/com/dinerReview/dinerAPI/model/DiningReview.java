@@ -20,7 +20,6 @@ public class DiningReview {
     private Long id;
 
     @Column(name="NAME")
-    @NonNull
     private String name;
 
     @Column(name="RESTID")

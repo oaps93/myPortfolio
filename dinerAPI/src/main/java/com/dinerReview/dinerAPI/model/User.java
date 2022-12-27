@@ -24,18 +24,16 @@ public class User {
     private Long id;
 
     @Column(name="NAME")
-    @NonNull
-    private HashSet<String> name;
+    private String name;
 
     @Column(name="CITY")
-    @NonNull
     private String city;
 
     @Column(name="STATE")
     private String state;
 
     @Column(name="ZIPCODE")
-    private Integer zipcode;
+    private Integer zipCode;
 
     @Column(name="PEANUTALLERGY")
     private Boolean peanutAllergy;

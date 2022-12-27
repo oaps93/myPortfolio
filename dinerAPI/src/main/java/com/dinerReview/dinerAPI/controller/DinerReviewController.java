@@ -6,15 +6,11 @@ import com.dinerReview.dinerAPI.model.User;
 import com.dinerReview.dinerAPI.repository.DiningReviewRepository;
 import com.dinerReview.dinerAPI.repository.RestaurantRepository;
 import com.dinerReview.dinerAPI.repository.UserRepository;
-import net.bytebuddy.dynamic.DynamicType;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.persistence.Entity;
-import javax.swing.text.html.Option;
-import java.util.DuplicateFormatFlagsException;
-import java.util.List;
+
 import java.util.Optional;
 
 @RestController
@@ -31,12 +27,12 @@ public class DinerReviewController {
         this.diningReviewRepository = diningReviewRepository;
     }
 
-    @GetMapping("/restaurants")
+    @GetMapping("/restaurants") //NOT WORKING
     public Iterable<Restaurant> getAllRestaurants(){
     return this.restaurantRepository.findAll();
     }
 
-    @GetMapping("/restaurant")
+    @GetMapping("/restaurant") //NOT WORKING
     public Restaurant getRestaurant(@RequestParam Long id){
         Optional<Restaurant> restaurantOptional = this.restaurantRepository.getById(id);
         if(restaurantOptional.isEmpty()){
@@ -46,13 +42,13 @@ public class DinerReviewController {
         return  restaurant;
     }
 
-    @PostMapping("/restaurant")
+    @PostMapping("/restaurant") // WORKING ALLRIGHT
     public Restaurant createRestaurant(@RequestBody Restaurant restaurant){
         Restaurant newRestaurant = this.restaurantRepository.save(restaurant);
         return newRestaurant;
     }
 
-    @PutMapping("/restaurant/{id}")
+    @PutMapping("/restaurant/{id}") // NOT TESTED YET
     public Restaurant editRestaurant(@RequestBody Restaurant restaurant,@PathVariable Long id){
         Optional<Restaurant> restaurantOptional = this.restaurantRepository.getById(id);
         if(restaurantOptional.isEmpty()){
@@ -68,10 +64,10 @@ public class DinerReviewController {
         return this.restaurantRepository.save(restaurantToUpdate);
     }
 
-    //@GetMapping("/user")
-    //public Iterable<User> getAllUsers(){
-    //    return this.userRepository.findAll();
-    //}
+    @GetMapping("/users")
+    public Iterable<User> getAllUsers(){
+        return this.userRepository.findAll();
+    }
 
     @GetMapping("/user")
     public User getUser(@RequestParam String name){
@@ -89,10 +85,10 @@ public class DinerReviewController {
         return newUser;
     }
 
-    //@GetMapping("/diningReview")
-    //public Iterable<DiningReview> getAllDiningReview(){
-    //    return this.diningReviewRepository.findAll();
-    //}
+    @GetMapping("/diningReviews")
+    public Iterable<DiningReview> getAllDiningReview(){
+        return this.diningReviewRepository.findAll();
+    }
 
     @GetMapping("/diningReview")
     public DiningReview getDiningReview(@RequestParam Long id){

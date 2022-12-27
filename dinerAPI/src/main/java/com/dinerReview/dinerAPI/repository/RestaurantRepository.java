@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface RestaurantRepository extends CrudRepository<Restaurant,Integer> {
 
     Optional<Restaurant> getByName(String name);
+    Iterable<Restaurant> findAll();
 
     Optional<Restaurant> getByZipCode(String zipCode);
 
