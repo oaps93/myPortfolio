@@ -13,8 +13,8 @@ import lombok.NonNull;
 
 @Entity
 @Table(name="RESTAURANT")
-@Getter
 @Setter
+@Getter
 @RequiredArgsConstructor
 public class Restaurant {
     @Id
@@ -27,7 +27,7 @@ public class Restaurant {
 
     @Column(name="ZIPCODE")
     @NonNull
-    private String zipCode;
+    private Integer zipCode;
 
     @Column(name="PEANUTSCORE")
     private int peanutScore;

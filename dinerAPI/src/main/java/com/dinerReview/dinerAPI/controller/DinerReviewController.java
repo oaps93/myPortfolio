@@ -63,7 +63,7 @@ public class DinerReviewController {
             restaurantToUpdate.setName(restaurant.getName());
         }
         if(restaurant.getZipCode()!= null){
-            restaurantToUpdate.setName(restaurant.getZipCode());
+            restaurantToUpdate.setZipCode(restaurant.getZipCode());
         }
         return this.restaurantRepository.save(restaurantToUpdate);
     }

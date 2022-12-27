@@ -14,8 +14,8 @@ import java.util.HashSet;
 
 @Entity
 @Table(name="USER_")
-@Getter
 @Setter
+@Getter
 @RequiredArgsConstructor
 public class User {
 
@@ -25,7 +25,7 @@ public class User {
 
     @Column(name="NAME")
     @NonNull
-    private String name;
+    private HashSet<String> name;
 
     @Column(name="CITY")
     @NonNull
