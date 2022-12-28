@@ -41,7 +41,6 @@ public class DinerReviewController {
         Restaurant restaurant = restaurantOptional.get();
         return  restaurant;
     }
-
     @PostMapping("/restaurant") // WORKING ALLRIGHT
     public Restaurant createRestaurant(@RequestBody Restaurant restaurant){
         Restaurant newRestaurant = this.restaurantRepository.save(restaurant);
@@ -64,12 +63,12 @@ public class DinerReviewController {
         return this.restaurantRepository.save(restaurantToUpdate);
     }
 
-    @GetMapping("/users")
+    @GetMapping("/users") // WORKING FINE
     public Iterable<User> getAllUsers(){
         return this.userRepository.findAll();
     }
 
-    @GetMapping("/user")
+    @GetMapping("/user") // WORKING FINE
     public User getUser(@RequestParam String name){
         Optional<User> userOptional = this.userRepository.getByName(name);
         if(userOptional.isEmpty()){
@@ -78,19 +77,18 @@ public class DinerReviewController {
         User user = userOptional.get();
         return user;
     }
-
-    @PostMapping("/user")
+    @PostMapping("/user") // WORKING FINE
     public User createUser(@RequestBody User user){
         User newUser = this.userRepository.save(user);
         return newUser;
     }
 
-    @GetMapping("/diningReviews")
+    @GetMapping("/diningReviews") // WORKING FINE
     public Iterable<DiningReview> getAllDiningReview(){
         return this.diningReviewRepository.findAll();
     }
 
-    @GetMapping("/diningReview")
+    @GetMapping("/diningReview") // WORKING FINE
     public DiningReview getDiningReview(@RequestParam Long id){
         Optional<DiningReview> diningReviewOptional = this.diningReviewRepository.getById(id);
 
@@ -102,7 +100,7 @@ public class DinerReviewController {
 
     }
 
-    @PostMapping("/diningReview")
+    @PostMapping("/diningReview") // WORKING FINE
         public DiningReview createDiningReview(@RequestBody DiningReview diningReview){
         DiningReview newDiningReview = this.diningReviewRepository.save(diningReview);
         return newDiningReview;
