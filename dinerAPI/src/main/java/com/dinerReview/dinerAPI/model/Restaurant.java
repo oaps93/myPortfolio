@@ -1,10 +1,6 @@
 package com.dinerReview.dinerAPI.model;
 
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -17,16 +13,15 @@ import lombok.NonNull;
 @Getter
 @RequiredArgsConstructor
 public class Restaurant {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="NAME")
-    @NonNull
     private String name;
 
     @Column(name="ZIPCODE")
-    @NonNull
     private Integer zipCode;
 
     @Column(name="PEANUTSCORE")

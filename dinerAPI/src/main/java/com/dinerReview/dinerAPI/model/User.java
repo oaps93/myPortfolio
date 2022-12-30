@@ -1,10 +1,6 @@
 package com.dinerReview.dinerAPI.model;
 
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -20,7 +16,7 @@ import java.util.HashSet;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="NAME")

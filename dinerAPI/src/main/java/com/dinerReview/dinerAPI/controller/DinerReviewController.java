@@ -27,12 +27,12 @@ public class DinerReviewController {
         this.diningReviewRepository = diningReviewRepository;
     }
 
-    @GetMapping("/restaurants") //NOT WORKING
+    @GetMapping("/restaurants") //WORKING
     public Iterable<Restaurant> getAllRestaurants(){
     return this.restaurantRepository.findAll();
     }
 
-    @GetMapping("/restaurant") //NOT WORKING
+    @GetMapping("/restaurant") //WORKING
     public Restaurant getRestaurant(@RequestParam Long id){
         Optional<Restaurant> restaurantOptional = this.restaurantRepository.getById(id);
         if(restaurantOptional.isEmpty()){
@@ -47,11 +47,11 @@ public class DinerReviewController {
         return newRestaurant;
     }
 
-    @PutMapping("/restaurant/{id}") // NOT TESTED YET
+    @PutMapping("/restaurant/{id}") // WORKING FINE
     public Restaurant editRestaurant(@RequestBody Restaurant restaurant,@PathVariable Long id){
         Optional<Restaurant> restaurantOptional = this.restaurantRepository.getById(id);
         if(restaurantOptional.isEmpty()){
-            return null;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"NOT FOUND");
         }
         Restaurant restaurantToUpdate = restaurantOptional.get();
         if(restaurant.getName()!= null){
@@ -79,8 +79,45 @@ public class DinerReviewController {
     }
     @PostMapping("/user") // WORKING FINE
     public User createUser(@RequestBody User user){
-        User newUser = this.userRepository.save(user);
-        return newUser;
+
+        if(this.userRepository.getByName(user.getName()).isEmpty()){
+
+            User newUser = this.userRepository.save(user);
+            return newUser;
+
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"USER ALREADY GIVEN");
+
+    }
+
+    @PutMapping("/user/{name}") // WORKING FINE
+    public User editUser(@RequestBody User user,@PathVariable String name){
+        Optional<User> userOptional = this.userRepository.getByName(name);
+
+        if(userOptional.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"NOT FOUND");
+        }
+        User userToUpdate = userOptional.get();
+
+        if(user.getCity()!= null){
+            userToUpdate.setCity(user.getCity());
+        }
+        if(user.getState()!= null){
+            userToUpdate.setState(user.getState());
+        }
+        if(user.getZipCode()!= null){
+            userToUpdate.setZipCode(user.getZipCode());
+        }
+        if(user.getPeanutAllergy()!= null){
+            userToUpdate.setPeanutAllergy(user.getPeanutAllergy());
+        }
+        if(user.getEggAllergy()!= null){
+            userToUpdate.setEggAllergy(user.getEggAllergy());
+        }
+        if(user.getDairyAllergy()!= null){
+            userToUpdate.setDairyAllergy(user.getDairyAllergy());
+        }
+        return this.userRepository.save(userToUpdate);
     }
 
     @GetMapping("/diningReviews") // WORKING FINE
@@ -102,12 +139,13 @@ public class DinerReviewController {
 
     @PostMapping("/diningReview") // WORKING FINE
         public DiningReview createDiningReview(@RequestBody DiningReview diningReview){
-        DiningReview newDiningReview = this.diningReviewRepository.save(diningReview);
-        return newDiningReview;
+        if(this.userRepository.getByName(diningReview.getName()).isPresent()){
+            DiningReview newDiningReview = this.diningReviewRepository.save(diningReview);
+            return newDiningReview;
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"User doesn't exist");
+
     }
-
-
-
 
 
 }
