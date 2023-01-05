@@ -1,8 +1,6 @@
 package com.dinerReview.dinerAPI.controller;
 
-import com.dinerReview.dinerAPI.model.DiningReview;
-import com.dinerReview.dinerAPI.model.Restaurant;
-import com.dinerReview.dinerAPI.model.User;
+import com.dinerReview.dinerAPI.model.*;
 import com.dinerReview.dinerAPI.repository.DiningReviewRepository;
 import com.dinerReview.dinerAPI.repository.RestaurantRepository;
 import com.dinerReview.dinerAPI.repository.UserRepository;
@@ -26,10 +24,49 @@ public class DinerReviewController {
         this.restaurantRepository = restaurantRepository;
         this.diningReviewRepository = diningReviewRepository;
     }
+    @GetMapping("/admin/pendingReviews")
+    public Iterable<DiningReview> getPendingDinningReviews(){
+        return this.diningReviewRepository.getByStatus(Status.PENDING);
+    }
+
+    @PutMapping("/admin/pendingReviews/{id}")
+    public DiningReview reviewsAcceptance(@PathVariable Long id, @RequestBody AdminReviewAction reviewAction){
+
+        Optional<DiningReview> reviewOptional = this.diningReviewRepository.getById(id);
+
+        if(reviewOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Not submitted review");
+        }
+        DiningReview diningReviewToUpdate = reviewOptional.get();
+
+        // Re-computing scores
+
+        if(reviewAction.getReviewAccepted()){
+            diningReviewToUpdate.setStatus(Status.ACCEPTED);
+        }
+        else{
+            diningReviewToUpdate.setStatus(Status.DECLINED);
+        }
+        return this.diningReviewRepository.save(diningReviewToUpdate);
+    }
 
     @GetMapping("/restaurants") //WORKING
     public Iterable<Restaurant> getAllRestaurants(){
     return this.restaurantRepository.findAll();
+    }
+
+    @GetMapping("/restaurantss")
+    public Iterable<Restaurant> getSpecialSearch(@RequestParam Integer zipCode, String allergy){
+        switch (allergy){
+            case "peanut":
+                return this.restaurantRepository.getByZipCodeAndPeanutScoreGreaterThanOrderByNameDesc(zipCode,0);
+            case "egg":
+                return this.restaurantRepository.getByZipCodeAndEggScoreGreaterThanOrderByNameDesc(zipCode,0);
+            case "diary":
+                return this.restaurantRepository.getByZipCodeAndDairyScoreGreaterThanOrderByNameDesc(zipCode,0);
+            default:
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Allergy not found");
+        }
     }
 
     @GetMapping("/restaurant") //WORKING
@@ -41,8 +78,15 @@ public class DinerReviewController {
         Restaurant restaurant = restaurantOptional.get();
         return  restaurant;
     }
-    @PostMapping("/restaurant") // WORKING ALLRIGHT
+    @GetMapping("/restaurant/{id}/acceptedReviews")
+    public Iterable<DiningReview> getAcceptedDinningReviews(@PathVariable Long id){
+        return this.diningReviewRepository.getByStatusAndRestaurantId(Status.ACCEPTED, id);
+    }
+    @PostMapping("/restaurant") // WORKING FINE
     public Restaurant createRestaurant(@RequestBody Restaurant restaurant){
+        if(this.restaurantRepository.getByNameAndZipCode(restaurant.getName(), restaurant.getZipCode()).isPresent()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicated restaurant");
+        }
         Restaurant newRestaurant = this.restaurantRepository.save(restaurant);
         return newRestaurant;
     }

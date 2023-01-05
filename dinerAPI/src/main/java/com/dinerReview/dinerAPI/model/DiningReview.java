@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 @Entity
 @Table(name="REVIEWS")

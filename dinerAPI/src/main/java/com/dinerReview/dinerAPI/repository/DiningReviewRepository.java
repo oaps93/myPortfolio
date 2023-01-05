@@ -11,6 +11,8 @@ public interface DiningReviewRepository extends CrudRepository<DiningReview,Inte
     DiningReview save(DiningReview newDiningReview);
     Iterable<DiningReview> getByStatus(Status status);
 
+    Iterable<DiningReview> getByStatusAndRestaurantId(Status status, Long restId);
+
     Optional<DiningReview> getById(Long id);
 
 }

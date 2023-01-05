@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class adminReviewAction {
+public class AdminReviewAction {
 
     private Boolean reviewAccepted;
 }

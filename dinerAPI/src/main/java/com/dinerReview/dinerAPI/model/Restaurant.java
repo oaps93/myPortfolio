@@ -7,6 +7,8 @@ import lombok.Setter;
 import lombok.Getter;
 import lombok.NonNull;
 
+import java.util.ArrayList;
+
 @Entity
 @Table(name="RESTAURANT")
 @Setter
