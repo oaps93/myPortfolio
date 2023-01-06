@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/diner")
@@ -29,6 +30,7 @@ public class DinerReviewController {
         return this.diningReviewRepository.getByStatus(Status.PENDING);
     }
 
+
     @PutMapping("/admin/pendingReviews/{id}")
     public DiningReview reviewsAcceptance(@PathVariable Long id, @RequestBody AdminReviewAction reviewAction){
 
@@ -43,6 +45,7 @@ public class DinerReviewController {
 
         if(reviewAction.getReviewAccepted()){
             diningReviewToUpdate.setStatus(Status.ACCEPTED);
+            recomputeScores(diningReviewToUpdate.getRestaurantId());
         }
         else{
             diningReviewToUpdate.setStatus(Status.DECLINED);
@@ -50,13 +53,50 @@ public class DinerReviewController {
         return this.diningReviewRepository.save(diningReviewToUpdate);
     }
 
+    public void recomputeScores(Long restId) {
+        int reviewsAccepted = getAcceptedDinningReviews(restId).size();
+
+        List<DiningReview> peanutScoreList = this.diningReviewRepository.getAllByStatusAndRestaurantIdAndPeanutScoreGreaterThan(Status.ACCEPTED,restId,0);
+        List<DiningReview> eggsScoreList = this.diningReviewRepository.getAllByStatusAndRestaurantIdAndEggScoreGreaterThan(Status.ACCEPTED,restId,0);
+        List<DiningReview> dairyScoreList = this.diningReviewRepository.getAllByStatusAndRestaurantIdAndDairyScoreGreaterThan(Status.ACCEPTED,restId,0);
+
+        int totalReviewsPeanutScore = peanutScoreList.size();
+        int totalReviewsEggScore = eggsScoreList.size();
+        int totalReviewsDairyScore = dairyScoreList.size();
+
+        int sumAllPeanutScores = 0;
+        int sumAllEggScores = 0;
+        int sumAllDairyScores = 0;
+
+        for(DiningReview diningReview: peanutScoreList) {
+            sumAllPeanutScores += diningReview.getPeanutScore();
+        }
+        for(DiningReview diningReview: eggsScoreList) {
+            sumAllEggScores += diningReview.getEggScore();
+        }
+        for(DiningReview diningReview: dairyScoreList) {
+            sumAllDairyScores += diningReview.getDairyScore();
+        }
+
+        int avgPeanutScore = sumAllPeanutScores / totalReviewsPeanutScore;
+        int avgEggScore = sumAllEggScores / totalReviewsEggScore;
+        int avgDairyScore = sumAllDairyScores / totalReviewsDairyScore;
+
+
+
+
+    }
+
+
+
+
     @GetMapping("/restaurants") //WORKING
     public Iterable<Restaurant> getAllRestaurants(){
     return this.restaurantRepository.findAll();
     }
 
-    @GetMapping("/restaurantss")
-    public Iterable<Restaurant> getSpecialSearch(@RequestParam Integer zipCode, String allergy){
+    @GetMapping("/restaurants/specialSearch")
+    public Iterable<Restaurant> getSpecialSearch(@RequestParam Integer zipCode, @RequestParam String allergy){
         switch (allergy){
             case "peanut":
                 return this.restaurantRepository.getByZipCodeAndPeanutScoreGreaterThanOrderByNameDesc(zipCode,0);
@@ -79,8 +119,8 @@ public class DinerReviewController {
         return  restaurant;
     }
     @GetMapping("/restaurant/{id}/acceptedReviews")
-    public Iterable<DiningReview> getAcceptedDinningReviews(@PathVariable Long id){
-        return this.diningReviewRepository.getByStatusAndRestaurantId(Status.ACCEPTED, id);
+    public List<DiningReview> getAcceptedDinningReviews(@PathVariable Long id){
+        return this.diningReviewRepository.getAllByStatusAndRestaurantId(Status.ACCEPTED, id);
     }
     @PostMapping("/restaurant") // WORKING FINE
     public Restaurant createRestaurant(@RequestBody Restaurant restaurant){
@@ -181,15 +221,22 @@ public class DinerReviewController {
 
     }
 
-    @PostMapping("/diningReview") // WORKING FINE
-        public DiningReview createDiningReview(@RequestBody DiningReview diningReview){
-        if(this.userRepository.getByName(diningReview.getName()).isPresent()){
-            DiningReview newDiningReview = this.diningReviewRepository.save(diningReview);
-            return newDiningReview;
+    @PostMapping("/diningReview") //
+    public DiningReview createDiningReview(@RequestBody DiningReview diningReview){
+
+        if(this.userRepository.getByName(diningReview.getName()).isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"User doesn't exist");
         }
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"User doesn't exist");
+        if(this.restaurantRepository.getById(diningReview.getRestaurantId()).isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Restaurant not found");
+        }
+        DiningReview newDiningReview = this.diningReviewRepository.save(diningReview);
+        return newDiningReview;
 
     }
+
+
+
 
 
 }
