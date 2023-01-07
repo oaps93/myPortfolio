@@ -54,7 +54,10 @@ public class DinerReviewController {
     }
 
     public void recomputeScores(Long restId) {
-        int reviewsAccepted = getAcceptedDinningReviews(restId).size();
+
+
+        Optional<Restaurant> restaurantScoresUpdateOptional = this.restaurantRepository.getById(restId);
+        Restaurant restaurantScoresUpdate = restaurantScoresUpdateOptional.get();
 
         List<DiningReview> peanutScoreList = this.diningReviewRepository.getAllByStatusAndRestaurantIdAndPeanutScoreGreaterThan(Status.ACCEPTED,restId,0);
         List<DiningReview> eggsScoreList = this.diningReviewRepository.getAllByStatusAndRestaurantIdAndEggScoreGreaterThan(Status.ACCEPTED,restId,0);
@@ -78,17 +81,19 @@ public class DinerReviewController {
             sumAllDairyScores += diningReview.getDairyScore();
         }
 
-        int avgPeanutScore = sumAllPeanutScores / totalReviewsPeanutScore;
-        int avgEggScore = sumAllEggScores / totalReviewsEggScore;
-        int avgDairyScore = sumAllDairyScores / totalReviewsDairyScore;
+        double avgPeanutScore = sumAllPeanutScores / totalReviewsPeanutScore;
+        double avgEggScore = sumAllEggScores / totalReviewsEggScore;
+        double avgDairyScore = sumAllDairyScores / totalReviewsDairyScore;
 
+        double totalAvgScores = (avgDairyScore + avgEggScore + avgPeanutScore) /3;
 
+        restaurantScoresUpdate.setPeanutScore(avgPeanutScore);
+        restaurantScoresUpdate.setDairyScore(avgDairyScore);
+        restaurantScoresUpdate.setEggScore(avgEggScore);
+        restaurantScoresUpdate.setTotalScore(totalAvgScores);
 
-
+        this.restaurantRepository.save(restaurantScoresUpdate);
     }
-
-
-
 
     @GetMapping("/restaurants") //WORKING
     public Iterable<Restaurant> getAllRestaurants(){
