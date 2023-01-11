@@ -32,7 +32,7 @@ public class DinerReviewController {
     }
 
 
-    @PutMapping("/admin/pendingReviews/{id}") // declined passed, but no accepted
+    @PutMapping("/admin/pendingReviews/{id}") // declined passed, but not accepted
     public DiningReview reviewsAcceptance(@PathVariable Long id, @RequestBody AdminReviewAction reviewAction){
 
         Optional<DiningReview> reviewOptional = this.diningReviewRepository.getById(id);
@@ -46,7 +46,7 @@ public class DinerReviewController {
 
         if(reviewAction.getReviewAccepted()){
             diningReviewToUpdate.setStatus(Status.ACCEPTED);
-            recomputeScores(diningReviewToUpdate.getRestaurantId());
+            //recomputeScores(diningReviewToUpdate.getRestaurantId());
         }
         else{
             diningReviewToUpdate.setStatus(Status.DECLINED);
