@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 
+import java.text.DecimalFormat;
 import java.util.Optional;
 import java.util.*;
 
@@ -25,13 +26,13 @@ public class DinerReviewController {
         this.restaurantRepository = restaurantRepository;
         this.diningReviewRepository = diningReviewRepository;
     }
-    @GetMapping("/admin/pendingReviews")
+    @GetMapping("/admin/pendingReviews") //WORKING FINE
     public Iterable<DiningReview> getPendingDinningReviews(){
         return this.diningReviewRepository.getByStatus(Status.PENDING);
     }
 
 
-    @PutMapping("/admin/pendingReviews/{id}")
+    @PutMapping("/admin/pendingReviews/{id}") // declined passed, but no accepted
     public DiningReview reviewsAcceptance(@PathVariable Long id, @RequestBody AdminReviewAction reviewAction){
 
         Optional<DiningReview> reviewOptional = this.diningReviewRepository.getById(id);
@@ -54,7 +55,6 @@ public class DinerReviewController {
     }
 
     public void recomputeScores(Long restId) {
-
 
         Optional<Restaurant> restaurantScoresUpdateOptional = this.restaurantRepository.getById(restId);
         Restaurant restaurantScoresUpdate = restaurantScoresUpdateOptional.get();
@@ -87,15 +87,19 @@ public class DinerReviewController {
 
         double totalAvgScores = (avgDairyScore + avgEggScore + avgPeanutScore) /3;
 
-        restaurantScoresUpdate.setPeanutScore(avgPeanutScore);
-        restaurantScoresUpdate.setDairyScore(avgDairyScore);
-        restaurantScoresUpdate.setEggScore(avgEggScore);
-        restaurantScoresUpdate.setTotalScore(totalAvgScores);
+        // Giving a format
+        String format = "#.##";
+        DecimalFormat decimalFormat = new DecimalFormat(format);
+
+        restaurantScoresUpdate.setPeanutScore(decimalFormat.format(avgPeanutScore));
+        restaurantScoresUpdate.setDairyScore(decimalFormat.format(avgDairyScore));
+        restaurantScoresUpdate.setEggScore(decimalFormat.format(avgEggScore));
+        restaurantScoresUpdate.setTotalScore(decimalFormat.format(totalAvgScores));
 
         this.restaurantRepository.save(restaurantScoresUpdate);
     }
 
-    @GetMapping("/restaurants") //WORKING
+    @GetMapping("/restaurants") //WORKING FINE
     public Iterable<Restaurant> getAllRestaurants(){
     return this.restaurantRepository.findAll();
     }
@@ -114,7 +118,7 @@ public class DinerReviewController {
         }
     }
 
-    @GetMapping("/restaurant") //WORKING
+    @GetMapping("/restaurant") //WORKING FINE
     public Restaurant getRestaurant(@RequestParam Long id){
         Optional<Restaurant> restaurantOptional = this.restaurantRepository.getById(id);
         if(restaurantOptional.isEmpty()){
@@ -226,7 +230,7 @@ public class DinerReviewController {
 
     }
 
-    @PostMapping("/diningReview") //
+    @PostMapping("/diningReview") // Need to double-check, scores not rated automatic set to "0" for no reason
     public DiningReview createDiningReview(@RequestBody DiningReview diningReview){
 
         if(this.userRepository.getByName(diningReview.getName()).isEmpty()){

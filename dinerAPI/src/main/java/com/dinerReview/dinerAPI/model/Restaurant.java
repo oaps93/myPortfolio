@@ -27,16 +27,16 @@ public class Restaurant {
     private Integer zipCode;
 
     @Column(name="PEANUTSCORE")
-    private double peanutScore;
+    private String peanutScore;
 
     @Column(name="EGGSCORE")
-    private double eggScore;
+    private String eggScore;
 
     @Column(name="DAIRYSCORE")
-    private double dairyScore;
+    private String dairyScore;
 
     @Column(name="TOTALSCORE")
-    private double totalScore;
+    private String totalScore;
 
 
 }
