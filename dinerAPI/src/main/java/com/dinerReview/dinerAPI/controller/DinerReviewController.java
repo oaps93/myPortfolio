@@ -46,12 +46,15 @@ public class DinerReviewController {
 
         if(reviewAction.getReviewAccepted()){
             diningReviewToUpdate.setStatus(Status.ACCEPTED);
-            //recomputeScores(diningReviewToUpdate.getRestaurantId());
+            diningReviewToUpdate = this.diningReviewRepository.save(diningReviewToUpdate);
+            recomputeScores(diningReviewToUpdate.getRestaurantId());
+
         }
         else{
             diningReviewToUpdate.setStatus(Status.DECLINED);
+            diningReviewToUpdate = this.diningReviewRepository.save(diningReviewToUpdate);
         }
-        return this.diningReviewRepository.save(diningReviewToUpdate);
+        return diningReviewToUpdate;
     }
 
     public void recomputeScores(Long restId) {
@@ -80,15 +83,21 @@ public class DinerReviewController {
         for(DiningReview diningReview: dairyScoreList) {
             sumAllDairyScores += diningReview.getDairyScore();
         }
+        double avgPeanutScore = 0.00;
+        double avgEggScore = 0.00;
+        double avgDairyScore = 0.00;
 
-        double avgPeanutScore = sumAllPeanutScores / totalReviewsPeanutScore;
-        double avgEggScore = sumAllEggScores / totalReviewsEggScore;
-        double avgDairyScore = sumAllDairyScores / totalReviewsDairyScore;
+        if(totalReviewsPeanutScore != 0)
+            avgPeanutScore = sumAllPeanutScores / totalReviewsPeanutScore;
+        if(totalReviewsEggScore != 0)
+            avgEggScore = sumAllEggScores / totalReviewsEggScore;
+        if(totalReviewsDairyScore != 0);
+            avgDairyScore = sumAllDairyScores / totalReviewsDairyScore;
 
-        double totalAvgScores = (avgDairyScore + avgEggScore + avgPeanutScore) /3;
+        double totalAvgScores = (avgDairyScore + avgEggScore + avgPeanutScore) / 3;
 
         // Giving a format
-        String format = "#.##";
+        String format = "0.00";
         DecimalFormat decimalFormat = new DecimalFormat(format);
 
         restaurantScoresUpdate.setPeanutScore(decimalFormat.format(avgPeanutScore));
