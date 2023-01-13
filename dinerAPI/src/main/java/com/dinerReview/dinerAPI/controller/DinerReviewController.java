@@ -32,7 +32,7 @@ public class DinerReviewController {
     }
 
 
-    @PutMapping("/admin/pendingReviews/{id}") // declined passed, but not accepted
+    @PutMapping("/admin/pendingReviews/{id}") // PASSING BUT MUST DOBLE CHECK AVERAGES AND TOTAL
     public DiningReview reviewsAcceptance(@PathVariable Long id, @RequestBody AdminReviewAction reviewAction){
 
         Optional<DiningReview> reviewOptional = this.diningReviewRepository.getById(id);
@@ -83,15 +83,17 @@ public class DinerReviewController {
         for(DiningReview diningReview: dairyScoreList) {
             sumAllDairyScores += diningReview.getDairyScore();
         }
+
         double avgPeanutScore = 0.00;
         double avgEggScore = 0.00;
         double avgDairyScore = 0.00;
+
 
         if(totalReviewsPeanutScore != 0)
             avgPeanutScore = sumAllPeanutScores / totalReviewsPeanutScore;
         if(totalReviewsEggScore != 0)
             avgEggScore = sumAllEggScores / totalReviewsEggScore;
-        if(totalReviewsDairyScore != 0);
+        if(totalReviewsDairyScore != 0)
             avgDairyScore = sumAllDairyScores / totalReviewsDairyScore;
 
         double totalAvgScores = (avgDairyScore + avgEggScore + avgPeanutScore) / 3;
