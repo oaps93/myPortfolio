@@ -32,7 +32,7 @@ public class DinerReviewController {
     }
 
 
-    @PutMapping("/admin/pendingReviews/{id}") // PASSING BUT MUST DOBLE CHECK AVERAGES AND TOTAL
+    @PutMapping("/admin/pendingReviews/{id}") // WORKING FINE
     public DiningReview reviewsAcceptance(@PathVariable Long id, @RequestBody AdminReviewAction reviewAction){
 
         Optional<DiningReview> reviewOptional = this.diningReviewRepository.getById(id);
@@ -70,9 +70,9 @@ public class DinerReviewController {
         int totalReviewsEggScore = eggsScoreList.size();
         int totalReviewsDairyScore = dairyScoreList.size();
 
-        int sumAllPeanutScores = 0;
-        int sumAllEggScores = 0;
-        int sumAllDairyScores = 0;
+        double sumAllPeanutScores = 0;
+        double sumAllEggScores = 0;
+        double sumAllDairyScores = 0;
 
         for(DiningReview diningReview: peanutScoreList) {
             sumAllPeanutScores += diningReview.getPeanutScore();
@@ -241,7 +241,7 @@ public class DinerReviewController {
 
     }
 
-    @PostMapping("/diningReview") // Need to double-check, scores not rated automatic set to "0" for no reason
+    @PostMapping("/diningReview") // WORKING FINE
     public DiningReview createDiningReview(@RequestBody DiningReview diningReview){
 
         if(this.userRepository.getByName(diningReview.getName()).isEmpty()){
