@@ -1,6 +1,6 @@
 class ValidPalindrome {
     public static void main(String[] args){
-        String s = new String("A man, a plan, a canal: Panama");
+        String s = new String("amanaplanacanalpanama");
         System.out.println(isPalindrome(s));
     }
 
@@ -20,7 +20,7 @@ class ValidPalindrome {
             if(cleanString.charAt(i)!=cleanString.charAt(j)){ // c!=c
                 return false;
             }
-            j = len-2-i; // 6-2-2 = 2
+            j--; // 6-2-2 = 2
             
 
         }
