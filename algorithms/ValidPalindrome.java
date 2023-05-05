@@ -1,6 +1,6 @@
 class ValidPalindrome {
     public static void main(String[] args){
-        String s = new String("amanaplanacanalpanama");
+        String s = new String("non is woking");
         System.out.println(isPalindrome(s));
     }
 

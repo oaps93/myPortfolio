@@ -3,7 +3,7 @@ class Test{
        
 
     public static void main (String args[]){
-        int[] products = new int[] {1,2,2,1}; 
+        int[] products = new int[] {1,1,1,1}; 
         // b1 = 1  b2 = 2 i = 0     j 
         System.out.println(maxProductBag(products));
     }
