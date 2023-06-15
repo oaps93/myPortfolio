@@ -2,24 +2,24 @@ package com.dinerReview.dinerAPI.model;
 
 import javax.persistence.*;
 
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
+
 import java.util.HashSet;
 
 @Entity
 @Table(name="USER_")
 @Setter
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="NAME")
+    @Column(name="NAME", nullable = false)
     private String name;
 
     @Column(name="CITY")
@@ -31,13 +31,13 @@ public class User {
     @Column(name="ZIPCODE")
     private Integer zipCode;
 
-    @Column(name="PEANUTALLERGY")
+    @Column(name="PEANUT_ALLERGY")
     private Boolean peanutAllergy;
     
-    @Column(name="EGGALLERGY")
+    @Column(name="EGG_ALLERGY")
     private Boolean eggAllergy;
 
-    @Column(name="DAIRYALLERGY")
+    @Column(name="DAIRY_ALLERGY")
     private Boolean dairyAllergy;
 
 
