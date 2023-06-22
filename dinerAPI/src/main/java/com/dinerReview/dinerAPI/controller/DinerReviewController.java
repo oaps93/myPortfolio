@@ -5,6 +5,7 @@ import com.dinerReview.dinerAPI.repository.DiningReviewRepository;
 import com.dinerReview.dinerAPI.repository.RestaurantRepository;
 import com.dinerReview.dinerAPI.repository.UserRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -111,8 +112,8 @@ public class DinerReviewController {
     }
 
     @GetMapping("/restaurants") //WORKING FINE
-    public Iterable<Restaurant> getAllRestaurants(){
-    return this.restaurantRepository.findAll();
+    public ResponseEntity<Iterable<Restaurant>> getAllRestaurants(){
+        return new ResponseEntity<>(this.restaurantRepository.findAll(),HttpStatus.OK);
     }
 
     @GetMapping("/restaurants/specialSearch")

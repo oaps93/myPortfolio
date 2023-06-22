@@ -9,8 +9,11 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<User, Integer> {
 
     Optional<User> getByName(String name);
+    Optional<User> findById(Long id);
     User save(User newUser);
     Iterable<User> findAll();
+
+
 
 
 

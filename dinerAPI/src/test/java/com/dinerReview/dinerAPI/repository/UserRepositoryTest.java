@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,7 +44,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void setUserRepository_Get_allUsersTest(){
+    public void userRepository_Get_allUsersTest(){
 
         Iterable<User> allUsers = userRepository.findAll();
 
@@ -52,6 +53,33 @@ public class UserRepositoryTest {
 
         assertNotNull(allUsers);
         assertEquals(allUserList.size(),4);
+    }
+
+    @Test
+    public void setUserRepository_Get_findByIdTest(){
+
+        User user = User.builder()
+                .name("Josue")
+                .build();
+
+        User userSaved = userRepository.save(user);
+
+        User userFound = userRepository.findById(userSaved.getId()).get();
+
+        assertNotNull(userFound);
+    }
+
+    @Test
+    public void setUserRepository_Get_notFoundByIdTest(){
+
+        User user = User.builder()
+                .name("Josue")
+                .build();
+
+        User userSaved = userRepository.save(user);
+
+        assertThrows(NoSuchElementException.class, () -> userRepository.findById(11l).get());
+
     }
 
 }
