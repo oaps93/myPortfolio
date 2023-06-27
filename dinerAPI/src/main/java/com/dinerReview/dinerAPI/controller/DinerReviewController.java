@@ -78,12 +78,23 @@ public class DinerReviewController {
         for(DiningReview diningReview: peanutScoreList) {
             sumAllPeanutScores += diningReview.getPeanutScore();
         }
+        //sumAllPeanutScores = peanutScoreList.stream()
+        //        .mapToDouble(dR -> dR.getPeanutScore())
+        //        .sum();
+
         for(DiningReview diningReview: eggsScoreList) {
             sumAllEggScores += diningReview.getEggScore();
         }
+        //sumAllEggScores = eggsScoreList.stream()
+        //        .map(dR -> dR.getEggScore())
+        //        .reduce(0, (a,b) -> a+b);
+        //
         for(DiningReview diningReview: dairyScoreList) {
             sumAllDairyScores += diningReview.getDairyScore();
         }
+        //sumAllDairyScores = dairyScoreList.stream()
+        //        .mapToDouble(dR -> dR.getDairyScore())
+        //        .sum();
 
         double avgPeanutScore = 0.00;
         double avgEggScore = 0.00;
@@ -255,8 +266,6 @@ public class DinerReviewController {
         return newDiningReview;
 
     }
-
-
 
 
 

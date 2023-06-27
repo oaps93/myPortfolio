@@ -2,10 +2,7 @@ package com.dinerReview.dinerAPI.model;
 
 import javax.persistence.*;
 
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
 
 import java.util.ArrayList;
 
@@ -13,7 +10,9 @@ import java.util.ArrayList;
 @Table(name="RESTAURANT")
 @Setter
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Restaurant {
 
     @Id

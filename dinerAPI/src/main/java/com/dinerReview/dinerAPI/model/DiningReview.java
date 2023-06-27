@@ -1,10 +1,7 @@
 package com.dinerReview.dinerAPI.model;
 
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,7 +12,9 @@ import java.util.ArrayList;
 @Table(name="REVIEWS")
 @Setter
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class DiningReview {
 
     @Id
