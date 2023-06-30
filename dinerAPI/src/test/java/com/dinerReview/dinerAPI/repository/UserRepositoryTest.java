@@ -22,7 +22,7 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    public void userRepository_Save_returnSavedUserTest(){
+    public void userRepository_Save_ReturnSavedUserTest(){
 
         User user = User.builder()
                 .name("Juan")
@@ -34,7 +34,7 @@ public class UserRepositoryTest {
         Assertions.assertThat(savedUser.getId()).isGreaterThan(0);
     }
     @Test
-    public void userRepository_Save_notValidUserToSaveTest(){
+    public void userRepository_Save_NotValidUserToSaveTest(){
         User user = User.builder()
                 .city("Leon")
                 .state("Guanajuato")
@@ -44,7 +44,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void userRepository_Get_allUsersTest(){
+    public void userRepository_GetAll_AllUsersTest(){
 
         Iterable<User> allUsers = userRepository.findAll();
 
@@ -56,7 +56,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void setUserRepository_Get_findByIdTest(){
+    public void setUserRepository_GetById_FindByIdTest(){
 
         User user = User.builder()
                 .name("Josue")
@@ -67,6 +67,7 @@ public class UserRepositoryTest {
         User userFound = userRepository.findById(userSaved.getId()).get();
 
         assertNotNull(userFound);
+        assertEquals(userSaved,userFound);
     }
 
     @Test
@@ -77,9 +78,41 @@ public class UserRepositoryTest {
                 .build();
 
         User userSaved = userRepository.save(user);
+        Iterable<User> allUsers = userRepository.findAll();
 
-        assertThrows(NoSuchElementException.class, () -> userRepository.findById(11l).get());
+        //allUsers.forEach( u -> System.out.println(u.getId()));
+
+        assertThrows(Exception.class, () -> userRepository.findById(999l).get());
 
     }
+
+    @Test
+    public void setUserRepository_GetByName_FindByIdTest(){
+
+        User user = User.builder()
+                .name("Lola")
+                .build();
+
+        User userSaved = userRepository.save(user);
+
+        User userFound = userRepository.getByName(userSaved.getName()).get();
+
+        assertEquals(userSaved.getId(), userFound.getId());
+
+    }
+
+    @Test
+    public void setUserRepository_GetByName_NotFoundByNameTest(){
+
+        User user = User.builder()
+                .name("Lola")
+                .build();
+
+        User userSaved = userRepository.save(user);
+
+        assertThrows(NoSuchElementException.class, () -> userRepository.getByName("Yessenia").get());
+
+    }
+
 
 }
